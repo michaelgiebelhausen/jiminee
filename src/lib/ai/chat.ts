@@ -1,5 +1,5 @@
 import "server-only";
-import { anthropic, MODEL, AI_MOCK } from "./client";
+import { ai, MODEL, AI_MOCK } from "./client";
 import { chatSystemPrompt, type TaskContext } from "./prompts";
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
@@ -19,16 +19,19 @@ export async function* cardChatStream(
     return;
   }
 
-  const stream = anthropic().messages.stream({
+  const stream = await ai().chat.completions.create({
     model: MODEL,
     max_tokens: 800,
-    system: chatSystemPrompt(ctx, steps),
-    messages: [...history.slice(-20), { role: "user", content: userMessage }],
+    stream: true,
+    messages: [
+      { role: "system", content: chatSystemPrompt(ctx, steps) },
+      ...history.slice(-20),
+      { role: "user", content: userMessage },
+    ],
   });
 
-  for await (const event of stream) {
-    if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-      yield event.delta.text;
-    }
+  for await (const chunk of stream) {
+    const delta = chunk.choices[0]?.delta?.content;
+    if (delta) yield delta;
   }
 }

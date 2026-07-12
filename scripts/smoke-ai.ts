@@ -3,14 +3,14 @@
  * against the REAL Anthropic API using the seeded workplace brief, and prints them.
  *
  * Usage: npx tsx --conditions react-server scripts/smoke-ai.ts
- * (requires ANTHROPIC_API_KEY in .env.local; the react-server condition satisfies "server-only")
+ * (requires OPENROUTER_API_KEY in .env.local; the react-server condition satisfies "server-only")
  */
 import { config } from "dotenv";
 config({ path: ".env.local" });
 
 async function main() {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error("Set ANTHROPIC_API_KEY in .env.local first.");
+  if (!process.env.OPENROUTER_API_KEY) {
+    console.error("Set OPENROUTER_API_KEY in .env.local first.");
     process.exit(1);
   }
   const { generateStepsStream } = await import("../src/lib/ai/steps");

@@ -1,5 +1,5 @@
 import "server-only";
-import { anthropic, MODEL, AI_MOCK } from "./client";
+import { ai, MODEL, AI_MOCK } from "./client";
 import { stepsSystemPrompt, stepsUserPrompt, type TaskContext } from "./prompts";
 
 const MOCK_STEPS = `1. Read the task title again so you know exactly what's being asked.
@@ -19,16 +19,18 @@ export async function* generateStepsStream(ctx: TaskContext): AsyncGenerator<str
     return;
   }
 
-  const stream = anthropic().messages.stream({
+  const stream = await ai().chat.completions.create({
     model: MODEL,
     max_tokens: 1500,
-    system: stepsSystemPrompt(ctx),
-    messages: [{ role: "user", content: stepsUserPrompt(ctx) }],
+    stream: true,
+    messages: [
+      { role: "system", content: stepsSystemPrompt(ctx) },
+      { role: "user", content: stepsUserPrompt(ctx) },
+    ],
   });
 
-  for await (const event of stream) {
-    if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-      yield event.delta.text;
-    }
+  for await (const chunk of stream) {
+    const delta = chunk.choices[0]?.delta?.content;
+    if (delta) yield delta;
   }
 }

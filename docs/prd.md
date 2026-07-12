@@ -81,7 +81,7 @@ graph TD
 - dnd-kit on touch devices needs `TouchSensor` with a small activation delay (~150ms) or scrolling fights dragging.
 
 **Environment variables:**
-`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `TELNYX_API_KEY`, `TELNYX_FROM_NUMBER`, `RESEND_API_KEY`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`, `SENTRY_DSN`, `CRON_SECRET`, `NEXT_PUBLIC_APP_URL`.
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `OPENROUTER_API_KEY` (optional `AI_MODEL`), `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `TELNYX_API_KEY`, `TELNYX_FROM_NUMBER`, `RESEND_API_KEY`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`, `SENTRY_DSN`, `CRON_SECRET`, `NEXT_PUBLIC_APP_URL`.
 
 ### Repository Structure
 
@@ -786,7 +786,7 @@ Not applicable to the MVP — the pilot is free and the payments choice is "None
 | Service | Used for | Tier | Env vars | Notes |
 |---|---|---|---|---|
 | Supabase | DB, auth, Realtime | Pro $25/mo (pilot) | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | Enable Realtime on tasks/task_steps/disputes |
-| Anthropic | Tell Me How + chat | PAYG | `ANTHROPIC_API_KEY` | Model `claude-sonnet-5` behind `lib/ai` seam; streaming |
+| OpenRouter | Tell Me How + chat | PAYG | `OPENROUTER_API_KEY` | Claude Sonnet via OpenRouter (OpenAI-compatible) behind `lib/ai` seam; model set by `AI_MODEL`; streaming |
 | Telnyx | SMS nudges (fallback) | PAYG (~$0.004/SMS + ~$1.00/mo number, no minimums) | `TELNYX_API_KEY`, `TELNYX_FROM_NUMBER` | US A2P 10DLC registration required (carrier rule, applies to any provider) — start week 1, takes days |
 | web-push (VAPID) | Push nudges | Free | `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` | Generate once; public key also exposed client-side |
 | Resend | Invites, dispute notifications, digests, auth SMTP | Free 3k/mo | `RESEND_API_KEY` | Verify jiminee.work domain (SPF/DKIM) |
