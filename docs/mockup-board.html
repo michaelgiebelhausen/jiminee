@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jiminee — Board Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0D6036; --primary-hover:#0A4A2A; --on-primary:#FFF;
+  --ink:#1D2B1D; --ink-2:#6B6770; --ink-3:#8D8791;
+  --bg:#FAF6F4; --surface:#FFF; --sunken:#F3ECE9; --accent-soft:#E5D0CC;
+  --border:#DFD3D6; --border-strong:#BFACB5;
+  --success:#0D6036; --success-soft:#DEEDE4;
+  --warning:#96610F; --warning-soft:#F6E8D4;
+  --error:#A93B33; --error-soft:#F6DEDC;
+  --f-disp:'Nunito',system-ui,sans-serif; --f-body:'Nunito Sans',system-ui,sans-serif;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-full:9999px;
+  --sh-rest:0 1px 3px rgba(29,43,29,.08); --sh-raised:0 4px 12px rgba(29,43,29,.12); --sh-overlay:0 12px 32px rgba(29,43,29,.16);
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{
+  font:400 15px/1.55 var(--f-body); color:var(--ink);
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(229,208,204,.55), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(222,237,228,.6), transparent 55%),
+    var(--bg);
+  overflow:hidden;
+}
+/* paper grain */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .90 0 0 0 0 .89 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ---------- top bar ---------- */
+.topbar{display:flex;align-items:center;gap:14px;padding:14px 24px;position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{height:34px;display:block}
+.brand .word{font:800 22px/1 var(--f-disp);letter-spacing:-.01em;color:var(--ink)}
+.org{font:700 11px/1.3 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);padding:6px 12px}
+.topbar .grow{flex:1}
+.newcard{font:700 15px/1 var(--f-body);background:var(--primary);color:var(--on-primary);border:none;cursor:pointer;
+  border-radius:var(--r-sm);height:40px;padding:0 18px;display:flex;align-items:center;gap:8px;box-shadow:var(--sh-rest);transition:background .15s, transform .15s}
+.newcard:hover{background:var(--primary-hover);transform:translateY(-1px)}
+.newcard span{font-size:18px;line-height:0}
+.avatar{width:34px;height:34px;border-radius:var(--r-full);background:var(--accent-soft);color:var(--ink);
+  font:700 13px/34px var(--f-body);text-align:center;border:1px solid var(--border-strong)}
+
+/* ---------- board ---------- */
+.board{display:flex;gap:12px;padding:10px 24px 24px;height:calc(100vh - 66px);overflow-x:auto;position:relative;z-index:1}
+.col{width:296px;min-width:296px;background:var(--sunken);border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:10px;
+  animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.col:nth-child(1){animation-delay:.03s}.col:nth-child(2){animation-delay:.09s}.col:nth-child(3){animation-delay:.15s}
+.col:nth-child(4){animation-delay:.21s}.col:nth-child(5){animation-delay:.27s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.colhead{display:flex;align-items:center;gap:8px;padding:2px 6px}
+.colhead .name{font:700 11px/1.3 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.colhead .count{font:700 11px/1 var(--f-body);color:var(--ink-3);background:var(--surface);border-radius:var(--r-full);padding:4px 8px;margin-left:auto}
+.dot{width:8px;height:8px;border-radius:var(--r-full)}
+.dot.b{background:var(--border-strong)} .dot.t{background:var(--accent-soft);outline:1px solid var(--border-strong)}
+.dot.d{background:var(--primary)} .dot.x{background:var(--error)} .dot.done{background:var(--success)}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;box-shadow:var(--sh-rest);
+  cursor:pointer;transition:box-shadow .18s, transform .18s}
+.card:hover{box-shadow:var(--sh-raised);transform:translateY(-2px)}
+.card .t{font:700 15px/1.4 var(--f-body);margin-bottom:8px}
+.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.pill{font:700 10.5px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;border-radius:var(--r-full);padding:5px 9px;display:inline-flex;align-items:center;gap:4px}
+.p-hi{background:var(--warning-soft);color:var(--warning)}
+.p-status{background:var(--sunken);color:var(--ink-2)}
+.p-due{background:var(--surface);border:1px dashed var(--border-strong);color:var(--ink-2);text-transform:none;letter-spacing:0;font-weight:600}
+.p-disp{background:var(--error-soft);color:var(--error)}
+.who{width:24px;height:24px;border-radius:var(--r-full);background:var(--accent-soft);border:1px solid var(--border-strong);
+  font:700 10px/22px var(--f-body);text-align:center;color:var(--ink);margin-left:auto}
+.ring{width:28px;height:28px;border-radius:var(--r-full);margin-left:auto;
+  display:flex;align-items:center;justify-content:center;background:conic-gradient(var(--primary) var(--p,0deg),var(--sunken) 0)}
+.ring i{background:var(--surface);width:20px;height:20px;border-radius:var(--r-full);font:700 8.5px/20px var(--f-body);font-style:normal;text-align:center;color:var(--ink)}
+.claim{font:700 13px/1 var(--f-body);color:var(--primary);background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--r-sm);padding:8px 12px;width:100%;margin-top:10px;cursor:pointer;transition:background .15s}
+.claim:hover{background:var(--success-soft)}
+.card.drag{transform:rotate(-2deg) translateY(-4px);box-shadow:var(--sh-overlay);border-color:var(--border-strong)}
+.ghost{border:2px dashed var(--border-strong);border-radius:var(--r-md);height:64px;background:transparent}
+.empty{color:var(--ink-3);font:italic 400 13px/1.5 var(--f-body);text-align:center;padding:22px 12px}
+
+/* ---------- task detail sheet ---------- */
+.sheet{position:fixed;top:0;right:0;height:100vh;width:440px;background:var(--surface);z-index:10;
+  box-shadow:var(--sh-overlay);border-left:1px solid var(--border);display:flex;flex-direction:column;
+  animation:slidein .45s cubic-bezier(.2,.7,.3,1) .35s both}
+@keyframes slidein{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
+.sheet header{padding:22px 24px 14px;border-bottom:1px solid var(--border)}
+.sheet header .crumbs{font:700 10.5px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+.sheet header h2{font:800 21px/1.3 var(--f-disp);letter-spacing:-.01em}
+.sheet .scroll{flex:1;overflow-y:auto;padding:18px 24px}
+.sec{font:700 11px/1.3 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:16px 0 10px}
+.steps{display:flex;flex-direction:column;gap:2px}
+.step{display:flex;gap:10px;padding:9px 10px;border-radius:var(--r-sm);align-items:flex-start;transition:background .15s}
+.step:hover{background:var(--bg)}
+.step .box{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid var(--border-strong);margin-top:1px;position:relative;background:var(--surface)}
+.step.done .box{background:var(--primary);border-color:var(--primary)}
+.step.done .box::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:10px;border:solid var(--on-primary);border-width:0 2.5px 2.5px 0;transform:rotate(43deg)}
+.step.done .txt{color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--border-strong)}
+.step .txt b{font-weight:700}
+.step.streaming .txt::after{content:"▍";color:var(--primary);animation:blink 1s steps(1) infinite;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+.flag{font:600 13px/1 var(--f-body);color:var(--ink-3);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:10px}
+.flag:hover{color:var(--error)}
+.chat{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:9px 12px;border-radius:var(--r-md);font-size:14px;line-height:1.5}
+.msg.me{background:var(--accent-soft);align-self:flex-end;border-bottom-right-radius:4px}
+.msg.ai{background:var(--surface);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.ai .from{font:700 10.5px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--primary);display:block;margin-bottom:4px}
+.chatin{display:flex;gap:8px;margin-top:10px}
+.chatin input{flex:1;font:400 14px/1 var(--f-body);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;background:var(--surface);color:var(--ink)}
+.chatin input:focus{outline:2px solid var(--primary);outline-offset:1px;border-color:transparent}
+.chatin button{font:700 14px/1 var(--f-body);background:var(--primary);color:var(--on-primary);border:none;border-radius:var(--r-sm);padding:0 16px;cursor:pointer}
+.sheet footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px}
+.btn{font:700 15px/1 var(--f-body);border-radius:var(--r-sm);height:40px;padding:0 18px;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .15s}
+.btn.pri{background:var(--primary);color:var(--on-primary);flex:1}
+.btn.pri:hover{background:var(--primary-hover)}
+.btn.sec{background:var(--surface);color:var(--ink-2);border:1px solid var(--border-strong)}
+.btn.sec:hover{background:var(--error-soft);color:var(--error);border-color:var(--error)}
+.actlog{font-size:13px;color:var(--ink-2);display:flex;flex-direction:column;gap:8px;padding:4px 2px}
+.actlog li{list-style:none;display:flex;gap:8px;align-items:baseline}
+.actlog .when{color:var(--ink-3);font-size:12px;min-width:64px}
+
+/* ---------- nudge toast ---------- */
+.toast{position:fixed;left:24px;bottom:24px;z-index:20;background:var(--ink);color:var(--bg);width:360px;
+  border-radius:var(--r-md);padding:16px;box-shadow:var(--sh-overlay);display:flex;gap:12px;
+  animation:pop .6s cubic-bezier(.2,.9,.3,1.2) 1.1s both}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+.toast .cricket{font-size:26px;line-height:1;animation:chirp 3.5s ease-in-out 2s infinite}
+@keyframes chirp{0%,88%,100%{transform:none}90%{transform:rotate(-8deg)}94%{transform:rotate(6deg)}97%{transform:rotate(-3deg)}}
+.toast .body b{font:700 15px/1.4 var(--f-body);display:block;margin-bottom:2px}
+.toast .body p{font-size:13.5px;color:var(--accent-soft);line-height:1.45}
+.toast .acts{display:flex;gap:12px;align-items:center;margin-top:10px}
+.toast .still{font:700 13.5px/1 var(--f-body);background:var(--primary);color:var(--on-primary);border:none;border-radius:var(--r-sm);padding:9px 14px;cursor:pointer}
+.toast .still:hover{background:#12784a}
+.toast .drop{font:600 12.5px/1 var(--f-body);color:var(--accent-soft);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <img src="../design/logos/cricket_icon.svg" alt="" onerror="this.outerHTML='<span style=&quot;font-size:26px&quot;>🦗</span>'">
+    <span class="word">jiminee</span>
+  </div>
+  <span class="org">Marketing Dept · Clemson</span>
+  <div class="grow"></div>
+  <button class="newcard"><span>+</span> New card</button>
+  <div class="avatar">ER</div>
+</div>
+
+<div class="board">
+
+  <div class="col">
+    <div class="colhead"><span class="dot b"></span><span class="name">Backlog</span><span class="count">4</span></div>
+    <div class="card"><div class="t">Update the bulletin board outside 301 for fall events</div>
+      <div class="meta"><span class="pill p-due">no rush</span><span class="who">—</span></div></div>
+    <div class="card"><div class="t">Inventory the supply closet and list what's low</div>
+      <div class="meta"><span class="pill p-due">this week</span><span class="who">—</span></div></div>
+    <div class="card"><div class="t">Shred the box of old exams behind the front desk</div>
+      <div class="meta"><span class="who">—</span></div></div>
+    <div class="card"><div class="t">Water the plants in the faculty lounge</div>
+      <div class="meta"><span class="pill p-due">Fri</span><span class="who">—</span></div></div>
+  </div>
+
+  <div class="col">
+    <div class="colhead"><span class="dot t"></span><span class="name">To Do</span><span class="count">3</span></div>
+    <div class="card"><div class="t">Scan and email the signed forms in my mailbox</div>
+      <div class="meta"><span class="pill p-hi">High</span><span class="pill p-due">by 3 pm</span><span class="who">—</span></div>
+      <button class="claim">Claim this task</button></div>
+    <div class="card"><div class="t">Pick up the catering order from Hendrix at 11:30</div>
+      <div class="meta"><span class="pill p-due">11:30 am</span><span class="who">—</span></div>
+      <button class="claim">Claim this task</button></div>
+    <div class="card drag"><div class="t">Restock the printer in Brackett 214</div>
+      <div class="meta"><span class="pill p-hi">High</span><span class="who">—</span></div></div>
+    <div class="ghost"></div>
+  </div>
+
+  <div class="col">
+    <div class="colhead"><span class="dot d"></span><span class="name">Doing</span><span class="count">2</span></div>
+    <div class="card" style="outline:2px solid var(--primary);outline-offset:1px"><div class="t">Courier the signature packet to Sikes Hall</div>
+      <div class="meta"><span class="pill p-status">45 min in</span><span class="ring" style="--p:200deg"><i>5/9</i></span><span class="who">TY</span></div></div>
+    <div class="card"><div class="t">Assemble 30 orientation folders for Monday</div>
+      <div class="meta"><span class="pill p-status">just started</span><span class="ring" style="--p:40deg"><i>1/8</i></span><span class="who">MK</span></div></div>
+  </div>
+
+  <div class="col">
+    <div class="colhead"><span class="dot x"></span><span class="name">Blocked / Flagged</span><span class="count">1</span></div>
+    <div class="card"><div class="t">Clean the grad-lounge fridge</div>
+      <div class="meta"><span class="pill p-disp">Disputed</span><span class="pill p-status">awaiting Pat</span><span class="who">TY</span></div></div>
+  </div>
+
+  <div class="col">
+    <div class="colhead"><span class="dot done"></span><span class="name">Done</span><span class="count">7</span></div>
+    <div class="card" style="opacity:.75"><div class="t">Replace the toner in the front-desk printer</div>
+      <div class="meta"><span class="pill p-status">6 steps ✓</span><span class="who">MK</span></div></div>
+    <div class="card" style="opacity:.75"><div class="t">Deliver mail to faculty boxes</div>
+      <div class="meta"><span class="pill p-status">no chase</span><span class="who">TY</span></div></div>
+    <div class="empty">…and 5 more this week. Nice and quiet.</div>
+  </div>
+
+</div>
+
+<!-- task detail sheet -->
+<aside class="sheet">
+  <header>
+    <div class="crumbs">Doing · claimed 45 min ago · est. 60 min</div>
+    <h2>Courier the signature packet to Sikes Hall</h2>
+  </header>
+  <div class="scroll">
+    <div class="sec">Tell me how — 5 of 9 done</div>
+    <div class="steps">
+      <div class="step done"><span class="box"></span><span class="txt">Pick up the manila packet labeled <b>"Provost — signatures"</b> from Dr. Reyes's mailbox (mail room, 3rd floor, box 14).</span></div>
+      <div class="step done"><span class="box"></span><span class="txt">Check the packet holds all 4 signature pages — count them.</span></div>
+      <div class="step done"><span class="box"></span><span class="txt">Sign out a courier slip at the front desk (top drawer, blue pad).</span></div>
+      <div class="step done"><span class="box"></span><span class="txt">Walk to Sikes Hall — out the main doors, left on Calhoun Dr, ~8 minutes.</span></div>
+      <div class="step done"><span class="box"></span><span class="txt">Enter through the front entrance; the Provost's office is <b>Room 206</b>, up the main stairs.</span></div>
+      <div class="step"><span class="box"></span><span class="txt">Hand the packet to the office coordinator and ask them to initial your courier slip.</span></div>
+      <div class="step"><span class="box"></span><span class="txt">Photograph the initialed slip and attach it to this card.</span></div>
+      <div class="step"><span class="box"></span><span class="txt">Walk back and return the slip to the front-desk drawer.</span></div>
+      <div class="step streaming"><span class="box"></span><span class="txt">Mark this card Done — and if anyone was out of office, note it in the chat so Dr. Reyes</span></div>
+    </div>
+    <button class="flag">These steps were wrong? Flag it</button>
+
+    <div class="sec">Ask Jiminee</div>
+    <div class="chat">
+      <div class="msg me">The door at Sikes says use the side entrance — which way?</div>
+      <div class="msg ai"><span class="from">Jiminee</span>No problem — the side entrance is around the right of the building, facing the reflection pond. Room 206 is still up the main stairs once you're in. You've got this.</div>
+      <div class="chatin"><input placeholder="Ask anything — no dumb questions here"><button>Send</button></div>
+    </div>
+
+    <div class="sec">Activity</div>
+    <ul class="actlog">
+      <li><span class="when">9:02 am</span> Dr. Reyes posted this card</li>
+      <li><span class="when">10:14 am</span> Tyler claimed it · steps generated</li>
+      <li><span class="when">10:41 am</span> Step 5 of 9 checked</li>
+      <li><span class="when">10:58 am</span> Tyler asked Jiminee a question</li>
+    </ul>
+  </div>
+  <footer>
+    <button class="btn pri">✓ Mark done</button>
+    <button class="btn sec">Dispute</button>
+  </footer>
+</aside>
+
+<!-- nudge toast -->
+<div class="toast">
+  <div class="cricket">🦗</div>
+  <div class="body">
+    <b>Still on the courier run?</b>
+    <p>It's been quiet for 25 minutes. Tap to confirm — or drop the card back if something came up.</p>
+    <div class="acts"><button class="still">Still on it</button><button class="drop">Drop the card</button></div>
+  </div>
+</div>
+
+</body>
+</html>

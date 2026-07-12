@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jiminee Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* colors */
+  --color-primary:#0D6036; --color-primary-hover:#0A4A2A; --color-on-primary:#FFFFFF;
+  --color-ink:#1D2B1D; --color-ink-secondary:#6B6770; --color-ink-muted:#8D8791;
+  --color-background:#FAF6F4; --color-surface:#FFFFFF; --color-surface-sunken:#F3ECE9;
+  --color-accent-soft:#E5D0CC; --color-border:#DFD3D6; --color-border-strong:#BFACB5;
+  --color-success:#0D6036; --color-success-soft:#DEEDE4;
+  --color-warning:#96610F; --color-warning-soft:#F6E8D4;
+  --color-error:#A93B33; --color-error-soft:#F6DEDC;
+  --color-info:#4E6273; --color-info-soft:#E2E9EE;
+  /* typography */
+  --font-display:'Nunito',system-ui,sans-serif; --font-body:'Nunito Sans',system-ui,sans-serif;
+  --type-display:800 32px/1.2 var(--font-display); --type-h1:700 24px/1.25 var(--font-display);
+  --type-h2:700 18px/1.35 var(--font-body); --type-h3:600 16px/1.4 var(--font-body);
+  --type-body:400 15px/1.55 var(--font-body); --type-body-strong:700 15px/1.55 var(--font-body);
+  --type-caption:400 13px/1.45 var(--font-body); --type-label:700 11px/1.3 var(--font-body);
+  /* rounded */
+  --rounded-xs:4px; --rounded-sm:8px; --rounded-md:12px; --rounded-lg:16px; --rounded-full:9999px;
+  /* spacing */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px; --space-7:48px; --space-8:64px;
+  /* elevation */
+  --shadow-rest:0 1px 3px rgba(29,43,29,.08); --shadow-raised:0 4px 12px rgba(29,43,29,.12); --shadow-overlay:0 12px 32px rgba(29,43,29,.16);
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--color-background);color:var(--color-ink);font:var(--type-body);padding:var(--space-6) var(--space-4)}
+main{max-width:960px;margin:0 auto}
+header.guide{margin-bottom:var(--space-7)}
+header.guide h1{font:var(--type-display);letter-spacing:-.01em}
+header.guide p{color:var(--color-ink-secondary);margin-top:var(--space-2)}
+section{margin-bottom:var(--space-7)}
+section>h2{font:var(--type-h1);letter-spacing:-.01em;margin-bottom:var(--space-4);border-bottom:1px solid var(--color-border);padding-bottom:var(--space-2)}
+.note{font:var(--type-caption);color:var(--color-ink-muted)}
+.grid{display:grid;gap:var(--space-3)}
+.swatches{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.swatch{border:1px solid var(--color-border);border-radius:var(--rounded-md);overflow:hidden;background:var(--color-surface)}
+.swatch .chip{height:72px;display:flex;align-items:center;justify-content:center;font:var(--type-body-strong)}
+.swatch .meta{padding:var(--space-2) var(--space-3)}
+.swatch .meta b{font:var(--type-body-strong);display:block}
+.swatch .meta span{font:var(--type-caption);color:var(--color-ink-secondary)}
+.lock{font-size:11px;margin-left:6px}
+.spec-row{display:flex;align-items:baseline;gap:var(--space-4);padding:var(--space-3) 0;border-bottom:1px dashed var(--color-border);flex-wrap:wrap}
+.spec-row .spec{font:var(--type-caption);color:var(--color-ink-secondary);min-width:280px}
+.bar{background:var(--color-accent-soft);height:20px;border-radius:var(--rounded-xs)}
+.space-row{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2)}
+.space-row code{font:var(--type-caption);width:110px;color:var(--color-ink-secondary)}
+.radius-row{display:flex;gap:var(--space-4);flex-wrap:wrap}
+.radius-box{width:110px;height:72px;background:var(--color-surface);border:1px solid var(--color-border-strong);display:flex;align-items:center;justify-content:center;font:var(--type-caption);color:var(--color-ink-secondary)}
+.elev-row{display:flex;gap:var(--space-4);flex-wrap:wrap}
+.elev-card{width:200px;padding:var(--space-4);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--rounded-md)}
+.elev-card b{font:var(--type-body-strong);display:block}
+.elev-card span{font:var(--type-caption);color:var(--color-ink-secondary)}
+.comp-group{margin-bottom:var(--space-5)}
+.comp-group h3{font:var(--type-h2);margin-bottom:var(--space-3)}
+.comp-row{display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center}
+.lbl{font:var(--type-label);letter-spacing:.06em;text-transform:uppercase;color:var(--color-ink-muted);display:block;margin-bottom:var(--space-1)}
+/* components */
+.btn{font:var(--type-body-strong);border-radius:var(--rounded-sm);padding:10px 20px;height:40px;border:none;cursor:pointer;display:inline-flex;align-items:center}
+.btn-primary{background:var(--color-primary);color:var(--color-on-primary)}
+.btn-primary-hover{background:var(--color-primary-hover);color:var(--color-on-primary)}
+.btn-primary-disabled{background:var(--color-border);color:var(--color-ink-muted);cursor:not-allowed}
+.btn-secondary{background:var(--color-surface);color:var(--color-primary);border:1px solid var(--color-border-strong)}
+.btn-secondary-hover{background:var(--color-success-soft);color:var(--color-primary-hover);border:1px solid var(--color-border-strong)}
+.btn-destructive{background:var(--color-error);color:var(--color-on-primary)}
+.input{font:var(--type-body);color:var(--color-ink);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--rounded-sm);padding:10px 12px;height:40px;width:260px}
+.input-focus{outline:2px solid var(--color-primary);outline-offset:1px}
+.task-card{background:var(--color-surface);color:var(--color-ink);border:1px solid var(--color-border);border-radius:var(--rounded-md);padding:var(--space-4);width:300px;box-shadow:var(--shadow-rest)}
+.task-card.hover{box-shadow:var(--shadow-raised)}
+.task-card .title{font:var(--type-body-strong);margin-bottom:var(--space-2)}
+.task-card .chips{display:flex;gap:var(--space-2);align-items:center}
+.pill{font:var(--type-label);letter-spacing:.06em;text-transform:uppercase;border-radius:var(--rounded-full);padding:4px 10px;height:22px;display:inline-flex;align-items:center}
+.chip-status{background:var(--color-surface-sunken);color:var(--color-ink-secondary)}
+.chip-priority-high{background:var(--color-warning-soft);color:var(--color-warning)}
+.badge-dispute{background:var(--color-error-soft);color:var(--color-error)}
+.ring{width:26px;height:26px;border-radius:var(--rounded-full);background:conic-gradient(var(--color-primary) 0 160deg,var(--color-surface-sunken) 160deg 360deg);display:inline-flex;align-items:center;justify-content:center;font:var(--type-label);color:var(--color-ink);margin-left:auto}
+.ring i{background:var(--color-surface);width:18px;height:18px;border-radius:var(--rounded-full);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:8px}
+.toast{background:var(--color-ink);color:var(--color-background);font:var(--type-body);border-radius:var(--rounded-md);padding:var(--space-4);max-width:380px;box-shadow:var(--shadow-raised)}
+.toast .actions{margin-top:var(--space-3);display:flex;gap:var(--space-3);align-items:center}
+.toast .confirm{background:var(--color-primary);color:var(--color-on-primary);font:var(--type-body-strong);border:none;border-radius:var(--rounded-sm);padding:6px 14px;cursor:pointer}
+.toast .quiet{color:var(--color-accent-soft);font:var(--type-caption);text-decoration:underline;cursor:pointer;background:none;border:none}
+.metric{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--rounded-md);padding:var(--space-5);width:220px;box-shadow:var(--shadow-rest)}
+.metric .num{font:var(--type-display);color:var(--color-ink)}
+.metric .cap{font:var(--type-caption);color:var(--color-ink-secondary)}
+.modal-demo{background:var(--color-surface);border-radius:var(--rounded-lg);padding:var(--space-5);width:100%;max-width:480px;box-shadow:var(--shadow-overlay)}
+.modal-demo h4{font:var(--type-h2);margin-bottom:var(--space-2)}
+.modal-demo p{font:var(--type-body);color:var(--color-ink-secondary);margin-bottom:var(--space-4)}
+.dodont{grid-template-columns:1fr 1fr}
+.dodont .col{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--rounded-md);padding:var(--space-4)}
+.dodont h3{font:var(--type-h2);margin-bottom:var(--space-3)}
+.dodont ul{padding-left:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)}
+.dodont .do h3{color:var(--color-success)}
+.dodont .dont h3{color:var(--color-error)}
+@media (max-width:640px){.dodont{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header class="guide">
+  <h1>Jiminee Design System</h1>
+  <p>Warm, garden-toned design system for the Jiminee .work task board — a conscience in a vest, not a badge.</p>
+  <p class="note">This file is the human-readable mirror of <code>docs/design.md</code> (the source of truth). Same tokens, rendered live.</p>
+</header>
+
+<section id="colors">
+  <h2>Colors</h2>
+  <div class="grid swatches">
+    <div class="swatch"><div class="chip" style="background:var(--color-primary);color:var(--color-on-primary)">on-primary text</div><div class="meta"><b>primary <span class="lock">🔒</span></b><span>#0D6036 — the only interactive color</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-primary-hover);color:var(--color-on-primary)">on-primary text</div><div class="meta"><b>primary-hover</b><span>#0A4A2A</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-ink);color:var(--color-background)">background text</div><div class="meta"><b>ink <span class="lock">🔒</span></b><span>#1D2B1D — primary text</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-surface);color:var(--color-ink-secondary);border-bottom:1px solid var(--color-border)">ink-secondary text</div><div class="meta"><b>ink-secondary</b><span>#6B6770 — secondary text (AA)</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-surface);color:var(--color-ink-muted);border-bottom:1px solid var(--color-border)">ink-muted text</div><div class="meta"><b>ink-muted</b><span>#8D8791 — placeholders, large only</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-background);color:var(--color-ink);border-bottom:1px solid var(--color-border)">ink on background</div><div class="meta"><b>background</b><span>#FAF6F4 — app canvas</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-surface);color:var(--color-ink);border-bottom:1px solid var(--color-border)">ink on surface</div><div class="meta"><b>surface</b><span>#FFFFFF — cards</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-surface-sunken);color:var(--color-ink)">ink on sunken</div><div class="meta"><b>surface-sunken</b><span>#F3ECE9 — columns, wells</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-accent-soft);color:var(--color-ink)">ink on accent</div><div class="meta"><b>accent-soft</b><span>#E5D0CC — selection, highlight</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-surface);border-bottom:6px solid var(--color-border)"></div><div class="meta"><b>border</b><span>#DFD3D6</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-surface);border-bottom:6px solid var(--color-border-strong)"></div><div class="meta"><b>border-strong</b><span>#BFACB5 (Lilac Ash)</span></div></div>
+  </div>
+  <p class="note" style="margin:var(--space-4) 0 var(--space-2)">Semantic states — full-strength for text, soft for chips/banners:</p>
+  <div class="grid swatches">
+    <div class="swatch"><div class="chip" style="background:var(--color-success-soft);color:var(--color-success)">success on soft</div><div class="meta"><b>success / success-soft</b><span>#0D6036 / #DEEDE4</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-warning-soft);color:var(--color-warning)">warning on soft</div><div class="meta"><b>warning / warning-soft</b><span>#96610F / #F6E8D4</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-error-soft);color:var(--color-error)">error on soft</div><div class="meta"><b>error / error-soft</b><span>#A93B33 / #F6DEDC — disputes only</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--color-info-soft);color:var(--color-info)">info on soft</div><div class="meta"><b>info / info-soft</b><span>#4E6273 / #E2E9EE</span></div></div>
+  </div>
+</section>
+
+<section id="typography">
+  <h2>Typography</h2>
+  <div class="spec-row"><div style="font:var(--type-display)">Delegation that costs one sentence</div><div class="spec">display — Nunito 800, 32px / 1.2, -0.01em</div></div>
+  <div class="spec-row"><div style="font:var(--type-h1)">The board is quiet. That's the point.</div><div class="spec">h1 — Nunito 700, 24px / 1.25, -0.01em</div></div>
+  <div class="spec-row"><div style="font:var(--type-h2)">Restock the printer in Brackett 214</div><div class="spec">h2 — Nunito Sans 700, 18px / 1.35</div></div>
+  <div class="spec-row"><div style="font:var(--type-h3)">Step 4 of 9 — Find the toner shelf</div><div class="spec">h3 — Nunito Sans 600, 16px / 1.4</div></div>
+  <div class="spec-row"><div style="font:var(--type-body)">Open the supply closet across from the mail room. The toner boxes are on the second shelf, labeled by printer model.</div><div class="spec">body — Nunito Sans 400, 15px / 1.55</div></div>
+  <div class="spec-row"><div style="font:var(--type-body-strong)">Still on the mail run? Tap to confirm.</div><div class="spec">body-strong — Nunito Sans 700, 15px / 1.55</div></div>
+  <div class="spec-row"><div style="font:var(--type-caption);color:var(--color-ink-secondary)">Claimed by Tyler · 24 minutes ago</div><div class="spec">caption — Nunito Sans 400, 13px / 1.45</div></div>
+  <div class="spec-row"><div style="font:var(--type-label);letter-spacing:.06em;text-transform:uppercase;color:var(--color-ink-secondary)">In Progress</div><div class="spec">label — Nunito Sans 700, 11px / 1.3, +0.06em, uppercase</div></div>
+</section>
+
+<section id="spacing">
+  <h2>Spacing</h2>
+  <div class="space-row"><code>space-1 · 4px</code><div class="bar" style="width:4px"></div></div>
+  <div class="space-row"><code>space-2 · 8px</code><div class="bar" style="width:8px"></div></div>
+  <div class="space-row"><code>space-3 · 12px</code><div class="bar" style="width:12px"></div></div>
+  <div class="space-row"><code>space-4 · 16px</code><div class="bar" style="width:16px"></div></div>
+  <div class="space-row"><code>space-5 · 24px</code><div class="bar" style="width:24px"></div></div>
+  <div class="space-row"><code>space-6 · 32px</code><div class="bar" style="width:32px"></div></div>
+  <div class="space-row"><code>space-7 · 48px</code><div class="bar" style="width:48px"></div></div>
+  <div class="space-row"><code>space-8 · 64px</code><div class="bar" style="width:64px"></div></div>
+</section>
+
+<section id="radius">
+  <h2>Radius</h2>
+  <div class="radius-row">
+    <div class="radius-box" style="border-radius:var(--rounded-xs)">xs · 4px</div>
+    <div class="radius-box" style="border-radius:var(--rounded-sm)">sm · 8px</div>
+    <div class="radius-box" style="border-radius:var(--rounded-md)">md · 12px</div>
+    <div class="radius-box" style="border-radius:var(--rounded-lg)">lg · 16px</div>
+    <div class="radius-box" style="border-radius:var(--rounded-full)">full</div>
+  </div>
+  <p class="note" style="margin-top:var(--space-3)">sm = buttons & inputs · md = cards & toasts · lg = modals · full = chips, badges, avatars, progress ring. Never 0px.</p>
+</section>
+
+<section id="elevation">
+  <h2>Elevation &amp; Depth</h2>
+  <div class="elev-row">
+    <div class="elev-card" style="box-shadow:none;background:var(--color-surface-sunken);border:none"><b>Sunken</b><span>columns & wells — recession, no shadow</span></div>
+    <div class="elev-card" style="box-shadow:var(--shadow-rest)"><b>Rest</b><span>0 1px 3px rgba(29,43,29,.08) + 1px border</span></div>
+    <div class="elev-card" style="box-shadow:var(--shadow-raised)"><b>Raised</b><span>0 4px 12px rgba(29,43,29,.12) — hover / drag</span></div>
+    <div class="elev-card" style="box-shadow:var(--shadow-overlay)"><b>Overlay</b><span>0 12px 32px rgba(29,43,29,.16) — modals</span></div>
+  </div>
+  <p class="note" style="margin-top:var(--space-3)">Shadows are always Evergreen-tinted — never pure black.</p>
+</section>
+
+<section id="components">
+  <h2>Components</h2>
+
+  <div class="comp-group">
+    <h3>Buttons</h3>
+    <div class="comp-row">
+      <span><span class="lbl">button-primary</span><button class="btn btn-primary">Tell Me How</button></span>
+      <span><span class="lbl">hover</span><button class="btn btn-primary-hover">Tell Me How</button></span>
+      <span><span class="lbl">disabled</span><button class="btn btn-primary-disabled">Tell Me How</button></span>
+      <span><span class="lbl">button-secondary</span><button class="btn btn-secondary">View activity</button></span>
+      <span><span class="lbl">secondary hover</span><button class="btn btn-secondary-hover">View activity</button></span>
+      <span><span class="lbl">button-destructive</span><button class="btn btn-destructive">Dismiss dispute</button></span>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <h3>Input</h3>
+    <div class="comp-row">
+      <span><span class="lbl">input-text</span><input class="input" placeholder="Type the task in one sentence…"></span>
+      <span><span class="lbl">focus</span><input class="input input-focus" value="Restock the printer in Brackett 214"></span>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <h3>Task card</h3>
+    <div class="comp-row">
+      <span><span class="lbl">card (rest)</span>
+        <div class="task-card">
+          <div class="title">Restock the printer in Brackett 214</div>
+          <div class="chips"><span class="pill chip-priority-high">High</span><span class="pill chip-status">Doing</span><span class="ring"><i>4/9</i></span></div>
+        </div>
+      </span>
+      <span><span class="lbl">card (hover) + dispute badge</span>
+        <div class="task-card hover">
+          <div class="title">Deliver signature packet to Sikes Hall</div>
+          <div class="chips"><span class="pill badge-dispute">Disputed</span><span class="pill chip-status">Blocked</span></div>
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <h3>Chips &amp; badges</h3>
+    <div class="comp-row">
+      <span class="pill chip-status">chip-status</span>
+      <span class="pill chip-priority-high">chip-priority-high</span>
+      <span class="pill badge-dispute">badge-dispute</span>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <h3>Nudge toast</h3>
+    <div class="toast">
+      Still on the mail run? Tap to confirm — or drop the card back if something came up.
+      <div class="actions"><button class="confirm">Still on it</button><button class="quiet">Drop the card</button></div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <h3>Metric card</h3>
+    <div class="comp-row">
+      <div class="metric"><div class="num">84%</div><div class="cap">tasks done without a chase</div></div>
+      <div class="metric"><div class="num">23</div><div class="cap">tasks delegated this week (baseline 8)</div></div>
+    </div>
+  </div>
+
+  <div class="comp-group">
+    <h3>Modal</h3>
+    <div class="modal-demo">
+      <h4>Flag these steps as wrong?</h4>
+      <p>Tell us what didn't match reality — your manager gets notified and the next checklist gets smarter.</p>
+      <div class="comp-row"><button class="btn btn-primary">Send flag</button><button class="btn btn-secondary">Never mind</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="dos-donts">
+  <h2>Do's and Don'ts</h2>
+  <div class="grid dodont">
+    <div class="col do">
+      <h3>✓ Do</h3>
+      <ul>
+        <li>Use <b>primary</b> emerald as the only interactive color — one green thread through every screen.</li>
+        <li>Write UI copy in the brand voice everywhere, including errors and empty states.</li>
+        <li>Keep manager-facing surfaces factual and neutral: events, counts, timestamps.</li>
+        <li>Tint every shadow with Evergreen and every background with warmth.</li>
+        <li>Render the cricket in its original linework with clear space around it.</li>
+        <li>Hold WCAG AA on every text pairing; darken derived tokens, not the locked brands.</li>
+      </ul>
+    </div>
+    <div class="col dont">
+      <h3>✗ Don't</h3>
+      <ul>
+        <li>Don't use red for idleness or anything about a person — <b>error</b> is for disputes and failures only.</li>
+        <li>Don't add scores, gauges, or red/yellow/green ratings of workers anywhere.</li>
+        <li>Don't introduce blue as an accent or focus color.</li>
+        <li>Don't use 0px corners, thin weights, serifs, or body text below 13px.</li>
+        <li>Don't dress the cricket in a top hat or umbrella — no Disney trade dress.</li>
+        <li>Don't crowd: if a screen needs a divider, it more likely needs space.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+</body>
+</html>
