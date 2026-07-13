@@ -69,6 +69,7 @@ test("role rules: workers cannot create tasks, rule disputes, or edit others' ro
   const tyler = await signIn("tyler@jiminee.test");
 
   const { data: board } = await tyler.from("boards").select("id, org_id").limit(1).single();
+  if (!board) throw new Error("seeded board missing");
   const taskInsert = await tyler.from("tasks").insert({
     org_id: board.org_id,
     board_id: board.id,

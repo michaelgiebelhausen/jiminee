@@ -175,3 +175,23 @@ Resolved:
 | Disputes | Staff supervisor recruited as Administrator pre-launch; minimal flag→rule→log flow |
 | Pricing hypothesis | Per-worker seat, managers free |
 | Name risk | **Accepted** — proceed as Jiminee, no preemptive search/filing, fallbacks documented |
+
+---
+
+## 10. Decision Log — .me product (grill session, 2026-07-12)
+
+**Thesis:** *"Every morning I decide what matters, and Jiminee won't let me quietly drop those things."*
+
+| Decision | Choice |
+|---|---|
+| Wedge | **Scattered-commitments aggregation + vigilance.** Founder is user #1; .me is a **calendar substitute** (founder doesn't keep one), not a calendar consumer. The board is an elaborate to-do list, not a schedule. |
+| Architecture | **Not a fork.** Same codebase; a personal workspace IS an organization with `is_personal = true` — all RLS/mutations/audit-log/nudge machinery reuses. Only the task *source* differs (.work: manager assigns; .me: email/AI/self). |
+| Primary task source | **Email triage** — a "triage lane" decision surface (inbox → board), not an email client, not silent auto-import. Gmail via test-user OAuth for dogfooding (defers Google security review). |
+| Other sources | Obsidian (same extraction engine), **inbound task API** (founder's other apps push cards), calendar as pour-in only. |
+| Card taxonomy | One-off to-dos · project tasks · **recurring daily commitments (habits)** with streaks (e.g., "Meditate for 15 minutes"). |
+| Core loop | Morning **ritual** (commit to ≤5 picks) → **anti-rot** + **due-date** + **streak-risk** nudges chase them. Focus = self-declared "start" sessions (the schedule-free substitute for calendar blocks). |
+| Monitoring | **Same level as .work — central, not optional** (otherwise "it's just a to-do list"). Screen-agent v1 = active-window/presence-scoped watching during focus sessions; v2 = screenshot+vision (shared with .work Phase 2 — .me is the safer place to build it first: willing subject, no consent/legal exposure). |
+| Escalation | Warm → firm → tough_love ladder; user sets the **cap**, chasing always starts warm and climbs one rung per ignored nudge. Quiet hours respected. |
+| Pricing | **Freemium.** Board + triage + ritual + habits free (the list is a commodity); **the conscience/vigilance layer (screen-agent + escalating nudges) is the paid tier** (~$8–12/mo). |
+
+**Built 2026-07-12 (same session):** migration 0006 (personal workspaces, task taxonomy/recurrence, habit_completions, focus_sessions, me_settings, new audit events) · /today page (ritual + habit strip w/ streaks + focus bar) · /api/me/* (commit, habits/check, focus, focus/checkin) · /api/cron/me-sweep (anti-rot + today-slipping + streak-risk, escalation, quiet hours, push+SMS) · web presence watcher (Page Visibility + check-ins). 48 unit + 8 E2E green incl. the full .me loop. **Deferred to roadmap:** native active-window agent (Tauri), email triage pipeline, inbound task API, Obsidian, .me settings UI, Stripe.

@@ -54,3 +54,51 @@ insert into consent_records (org_id, user_id, disclosure_version) values
 insert into tasks (org_id, board_id, title, status, created_by, sort_order)
 select '10000000-0000-0000-0000-000000000002', b.id, 'Other org secret task', 'todo', '00000000-0000-0000-0000-000000000011', 1.0
 from boards b where b.org_id = '10000000-0000-0000-0000-000000000002';
+
+-- ---------------------------------------------------------------------------
+-- .me demo: single-user personal workspace (0006_me_accountability.sql).
+-- Login: me@jiminee.test / password123
+-- ---------------------------------------------------------------------------
+insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, recovery_token, email_change_token_new, email_change)
+values
+  ('00000000-0000-0000-0000-000000000021', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'me@jiminee.test', crypt('password123', gen_salt('bf')), now(), '{"provider":"email","providers":["email"]}', '{"display_name":"Mike Solo"}', now(), now(), '', '', '', '');
+
+insert into auth.identities (id, user_id, identity_data, provider, provider_id, last_sign_in_at, created_at, updated_at)
+select gen_random_uuid(), u.id,
+       jsonb_build_object('sub', u.id::text, 'email', u.email, 'email_verified', true),
+       'email', u.id::text, now(), now(), now()
+from auth.users u where u.email = 'me@jiminee.test';
+
+-- Personal workspace (trigger creates the Main Board; membership added below
+-- because auth.uid() is null during seeding).
+insert into organizations (id, name, is_personal, owner_id, workplace_brief, brief_completed_at) values
+  ('10000000-0000-0000-0000-000000000003', 'My Jiminee', true, '00000000-0000-0000-0000-000000000021', '{}', now());
+
+insert into memberships (org_id, user_id, role) values
+  ('10000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000021', 'administrator');
+
+-- Personal to-dos + daily habits (one habit carries a live streak).
+insert into tasks (org_id, board_id, title, status, task_type, recurrence, priority, estimated_minutes, created_by, assignee_id, sort_order)
+select '10000000-0000-0000-0000-000000000003', b.id, t.title, t.status, t.tt, t.rec, t.priority, t.est, '00000000-0000-0000-0000-000000000021', '00000000-0000-0000-0000-000000000021', t.ord
+from boards b
+cross join (values
+  ('Reply to the dean about fall scheduling', 'todo',    'todo',  null::varchar, 'high',   20, 1.0),
+  ('Draft the grant budget section',          'todo',    'project', null,        'normal', 60, 2.0),
+  ('Book flights for the October conference', 'backlog', 'todo',  null,          'normal', 25, 1.0),
+  ('Meditate for 15 minutes',                 'todo',    'habit', 'daily',       'normal', 15, 3.0),
+  ('Write 500 words',                         'todo',    'habit', 'weekdays',    'normal', 30, 4.0)
+) as t(title, status, tt, rec, priority, est, ord)
+where b.org_id = '10000000-0000-0000-0000-000000000003';
+
+-- 3-day meditation streak ending yesterday (today's completion still open).
+-- Anchor "today" in the org's timezone (ET), not the DB's UTC clock — at UTC
+-- evening the two differ and the streak would wrongly include today.
+insert into habit_completions (org_id, task_id, user_id, completed_on)
+select '10000000-0000-0000-0000-000000000003', t.id, '00000000-0000-0000-0000-000000000021',
+       (now() at time zone 'America/New_York')::date - d.days_ago
+from tasks t
+cross join (values (1), (2), (3)) as d(days_ago)
+where t.org_id = '10000000-0000-0000-0000-000000000003' and t.title = 'Meditate for 15 minutes';
+
+insert into me_settings (user_id, nudge_intensity, sms_enabled) values
+  ('00000000-0000-0000-0000-000000000021', 'firm', false);

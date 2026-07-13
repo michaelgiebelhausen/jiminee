@@ -21,7 +21,8 @@ async function main() {
     location: "Brackett 214",
     estimatedMinutes: 15,
     brief: {
-      locations: "Mail room: 3rd floor next to elevator. Supply closet: across from mail room. Printer: Brackett 214.",
+      locations:
+        "Mail room: 3rd floor next to elevator. Supply closet: across from mail room. Printer: Brackett 214.",
       systems: "Copier code taped inside supply closet door.",
       supplies: "Toner on second shelf of supply closet, labeled by model.",
       contacts: "Facilities: ext 5501. IT helpdesk: ext 4357.",
